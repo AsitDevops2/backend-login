@@ -1,0 +1,162 @@
+<h4>API Details</h4>
+API Name  - Token Generation
+URL - localhost:8085/token/generate-token
+Method - POST
+Header - Content-Type: application/json
+Body -
+{
+	"username":"abhay.thakur@jadeglobal.com",
+	"password":"Abhay@123"
+}
+
+Response :
+
+{
+    "status": 200,
+    "message": "success",
+    "result": {
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmhheS50aGFrdXJAamFkZWdsb2JhbC5jb20iLCJzY29wZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifV0sImlzcyI6Imh0dHA6Ly9yYWxleS5jb20iLCJpYXQiOjE2MTE1NzU4MDUsImV4cCI6MTYxMTU5MzgwNX0.iskZHQuwbbPlPDsC1_Y-TpceWMcGM1XKGbKvfJ1WF4Y",
+        "id": 1,
+        "email": "abhay.thakur@jadeglobal.com",
+        "firstName": "Abhay",
+        "lastName": "Thakur",
+        "mobileNo": 8447955231,
+        "pin": 411014,
+        "country": "India",
+        "state": "Maharastra",
+        "city": "Pune",
+        "dept": "ADM",
+        "addrLand1": "NA",
+        "addrLand2": "NA"
+    }
+}
+
+API Name  - List User
+URL - http://localhost:8085/user/list
+Method - Get
+Header - Content-Type: application/json
+Authorization : Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4MTIzIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpc3MiOiJodHRwOi8vZGV2Z2xhbi5jb20iLCJpYXQiOjE1NDEwNjIzOTMsImV4cCI6MTU0MTA4MDM5M30.DMoB5kv72X7Jf-U5APdjK3UUcGomA9NuJj6XGxmLyqE
+Response -
+{
+    "status": 200,
+    "message": "User list fetched successfully.",
+    "result": [
+        {
+            "id": 1,
+            "firstName": "Abhay",
+            "lastName": "Thakur",
+            "email": "abhay.thakur@jadeglobal.com",
+            "mobile": 8447955231,
+            "pin": 411014,
+            "country": "India",
+            "state": "Maharastra",
+            "city": "Pune",
+            "dept": "ADM",
+            "addr1": "NA",
+            "addr2": "NA"
+        }
+}
+
+API Name  - Registered/Sign-up
+URL - http://localhost:8085/vendor/register
+Method - POST
+Header - Content-Type: application/json
+Body -
+{
+ "firstName": "Asit",
+ "lastName": "Pradhan",
+"email": "asit.pradhan@jadeglobal.com",
+"mobileNo": 9876543219,
+"password":"Asit@2021",
+"state": "Maharastra",
+"pin": 411014,
+"country": "India",
+"city": "Pune",
+"dept": "IT",
+"addrLand1": "PUNE",
+"addrLand2": "PUNE"
+}
+
+API Name  - Update User
+URL - http://localhost:8085/users/4
+Method - PUT
+Header - Content-Type: application/json
+Authorization : Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4MTIzIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpc3MiOiJodHRwOi8vZGV2Z2xhbi5jb20iLCJpYXQiOjE1NDEwNjIzOTMsImV4cCI6MTU0MTA4MDM5M30.DMoB5kv72X7Jf-U5APdjK3UUcGomA9NuJj6XGxmLyqE
+Body -
+{
+ "firstName": "Asit",
+ "lastName": "Pradhan",
+"email": "asit.pradhan@jadeglobal.com",
+"mobileNo": 9876543219,
+"password":"Asit@2021",
+"state": "Maharastra",
+"pin": 411014,
+"country": "India",
+"city": "Pune",
+"dept": "IT",
+"addrLand1": "PUNE",
+"addrLand2": "Chandan Nagar"
+}
+
+Response -
+
+{
+    "status": 200,
+    "message": "User updated successfully.",
+    "result": {
+        "id": 0,
+        "firstName": "test1",
+        "lastName": "test1",
+        "email":"test1@gmail.com",
+        "password": "test1",
+        "age": 24,
+        "salary": 12345
+    }
+}
+
+
+API Name  - Create User
+URL - http://localhost:8085/users
+Method - POST
+Header - Content-Type: application/json
+    Authorization : Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4MTIzIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpc3MiOiJodHRwOi8vZGV2Z2xhbi5jb20iLCJpYXQiOjE1NDEwNjIzOTMsImV4cCI6MTU0MTA4MDM5M30.DMoB5kv72X7Jf-U5APdjK3UUcGomA9NuJj6XGxmLyqE
+Body -
+{
+	"email":"test@gmail.com",
+	"password":"test",
+	"firstName":"test",
+	"lastName":"test",
+	"age":23,
+	"salary":12345
+}
+
+Response -
+
+{
+    "status": 200,
+    "message": "User saved successfully.",
+    "result": {
+        "id": 4,
+        "firstName": "test",
+        "lastName": "test"",
+        "email":"test@gmail.com",
+        "salary": 12345,
+        "age": 23
+    }
+}
+
+
+
+API Name  - Delete User
+URL - http://localhost:8085/users/4
+Method - DELETE
+Header - Content-Type: application/json
+    Authorization : Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4MTIzIiwic2NvcGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpc3MiOiJodHRwOi8vZGV2Z2xhbi5jb20iLCJpYXQiOjE1NDEwNjIzOTMsImV4cCI6MTU0MTA4MDM5M30.DMoB5kv72X7Jf-U5APdjK3UUcGomA9NuJj6XGxmLyqE
+
+Response -
+{
+    "status": 200,
+    "message": "User deleted successfully.",
+    "result": null
+}
+
