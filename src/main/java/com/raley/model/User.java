@@ -40,6 +40,32 @@ public class User {
     private String role="normal";
     @Column
     private int parent=1;
+    
+    public User() {
+		super();
+	}
+
+	public User(int id, String firstName, String lastName, String email, String password, long mobile, int pin,
+			String country, String state, String city, String dept, String addr1, String addr2, String role,
+			int parent) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.mobile = mobile;
+		this.pin = pin;
+		this.country = country;
+		this.state = state;
+		this.city = city;
+		this.dept = dept;
+		this.addr1 = addr1;
+		this.addr2 = addr2;
+		this.role = role;
+		this.parent = parent;
+	}
+
 
     public int getId() {
         return id;

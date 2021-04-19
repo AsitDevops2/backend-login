@@ -21,6 +21,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    public UserController(UserService userService) {
+		super();
+		this.userService = userService;
+	}
 
     @GetMapping("/list")
     public ApiResponse<List<User>> listUser(){
