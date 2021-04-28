@@ -1,18 +1,24 @@
 package com.raley.service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.raley.dao.UserDao;
 import com.raley.model.User;
 import com.raley.model.UserDto;
 import com.raley.service.UserService;
+import com.raley.vo.Category;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +31,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	//Injecting RestTemplate bean for calling another api 
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    //Fetching the NodeApi url from properties file
+    @Value("${nodeApi.categoryByUser.url}")
+    private String url;
+
+    //jackson library class to read/write the JSON object
+    ObjectMapper mapper=new ObjectMapper();
 
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
@@ -72,4 +89,30 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
         return userDto;
     }
+
+	@Override
+	public List<User> findByParent(int id) {
+		return userDao.findByParent(id);
+	}
+
+	@Override
+	public List<Category> getCategoryList(int id) {
+		ResponseEntity<String> responseEntity=restTemplate.getForEntity(url+id, String.class);
+		
+		List<Category> categoryList=null;
+		
+		try {
+			categoryList=mapper.readValue(responseEntity.getBody(), new TypeReference<List<Category>>(){});
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		categoryList.forEach(category -> {
+			User parent=findById(Integer.parseInt(category.getUserId()));
+			category.setParent(parent);
+		});
+		
+		return categoryList;
+	}
 }

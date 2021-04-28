@@ -4,6 +4,7 @@ import com.raley.model.ApiResponse;
 import com.raley.model.User;
 import com.raley.model.UserDto;
 import com.raley.service.UserService;
+import com.raley.vo.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,15 @@ public class UserController {
     public ApiResponse<List<User>> listUser(){
         return new ApiResponse<>(HttpStatus.OK.value(), "User list fetched successfully.",userService.findAll());
     }
+    
+    @GetMapping("/listByParent/{id}")
+    public ApiResponse<List<User>> listUserByParent(@PathVariable int id) {
+    	List<User> userList=userService.findByParent(id);
+    	if(userList.isEmpty())
+    		return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "No Users Added By This Parent", null);
+    	
+    	return new ApiResponse<List<User>>(HttpStatus.OK.value(), "User list fetched successfully.", userList);
+    }
 
     @GetMapping("/getUser/{id}")
     public ApiResponse<User> getOne(@PathVariable int id){
@@ -48,6 +58,13 @@ public class UserController {
         return new ApiResponse<>(HttpStatus.OK.value(), "User deleted successfully.", null);
     }
 
-
+    @GetMapping("/getCategory/{id}")
+    public ApiResponse<List<Category>> getCategory(@PathVariable int id) {
+    	List<Category> categoryList=userService.getCategoryList(id);
+    	if(categoryList.isEmpty())
+    		return new ApiResponse<>(HttpStatus.NOT_FOUND.value(),"No Category Added By This User",null);
+    	
+    	return new ApiResponse<>(HttpStatus.OK.value(),"Category List Fetched Successfully",categoryList);
+    }
 
 }
