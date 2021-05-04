@@ -1,12 +1,12 @@
 package com.raley.model;
 
-public class ApiResponse<T> {
+public class Response<T> {
 
     private int status;
     private String message;
     private Object result;
 
-    public ApiResponse(int status, String message, Object result) {
+    public Response(int status, String message, Object result) {
         this.status = status;
         this.message = message;
         this.result = result;
