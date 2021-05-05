@@ -22,6 +22,10 @@ import com.raley.service.UserService;
  * @author abhay.thakur
  *
  */
+/**
+ * @author saklen.mulla
+ *
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/token")
@@ -37,10 +41,7 @@ public class AuthenticationController {
 	@Autowired
 	private UserService userService;
 
-	/**
-	 * @param loginUser
-	 * @return
-	 */
+	//call generate-token api for authentication
 	@RequestMapping(value = "/generate-token", method = RequestMethod.POST)
 	public ApiResponse<AuthToken> login(@RequestBody LoginUser loginUser) {
 		logger.info("authenticate user : " + loginUser.getUsername() + " for genearate token");

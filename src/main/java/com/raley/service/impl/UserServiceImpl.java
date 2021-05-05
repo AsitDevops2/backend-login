@@ -2,12 +2,15 @@ package com.raley.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.raley.controller.AuthenticationController;
 import com.raley.dao.UserDao;
 import com.raley.model.User;
 import com.raley.model.UserDto;
 import com.raley.service.UserService;
 import com.raley.vo.Category;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +32,8 @@ import java.util.Optional;
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 	
+	Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	
 	@Autowired
 	private UserDao userDao;
 	
@@ -47,10 +52,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	private BCryptPasswordEncoder bcryptEncoder;
 
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		logger.debug("finding the user by email. "+email);
 		User user = userDao.findByEmail(email);
 		if(user == null){
+			logger.info("User Not Exists");
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
+		logger.info("User Exists");
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority());
 	}
 
@@ -105,6 +113,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			categoryList=mapper.readValue(responseEntity.getBody(), new TypeReference<List<Category>>(){});
 		} 
 		catch (Exception e) {
+			logger.error("Getting Error while fetching the category list");
 			e.printStackTrace();
 		}
 		
