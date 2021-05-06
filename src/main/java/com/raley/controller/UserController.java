@@ -42,7 +42,9 @@ public class UserController {
 		this.userService = userService;
 	}
 
-    @ApiOperation(value="listUser" ,notes ="This method gets list of users")
+    @ApiOperation(value="listUser" ,notes ="This method gets list of users", authorizations = {
+  	      @Authorization(value = "Authorization")
+  	    }) 
     	@ApiResponses(value = { 
             @ApiResponse(code = 200, message = "Success|OK"),
             @ApiResponse(code = 401, message = "not authorized!")})
@@ -52,7 +54,7 @@ public class UserController {
     }
     
     @ApiOperation(value="listUserByParent",notes="This method gets list of users by parent", authorizations = {
-    	      @Authorization(value = "Only authorized user can get the list. Provide access token")
+    	      @Authorization(value = "Authorization")
     	    }) 
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "Success|OK"),
@@ -67,7 +69,9 @@ public class UserController {
     	return new Response<List<User>>(HttpStatus.OK.value(), "User list fetched successfully.", userList);
     }
 
-    @ApiOperation(value="getOne",notes="This method fetches user with id")
+    @ApiOperation(value="getOne",notes="This method fetches user with id", authorizations = {
+  	      @Authorization(value = "Authorization")
+  	    }) 
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "Success|OK"),
             @ApiResponse(code = 401, message = "not authorized!"), 
@@ -77,13 +81,17 @@ public class UserController {
         return new Response<>(HttpStatus.OK.value(), "User fetched successfully.",userService.findById(id));
     }
 
-    @ApiOperation(value="updateVendor",notes="This method updates user")
+    @ApiOperation(value="updateVendor",notes="This method updates user", authorizations = {
+  	      @Authorization(value = "Authorization")
+  	    }) 
     @PutMapping("/updateUser/{id}")
     public Response<UserDto> updateVendor(@RequestBody UserDto userDto) {
         return new Response<>(HttpStatus.OK.value(), "User updated successfully.",userService.update(userDto));
     }
 
-    @ApiOperation(value="deleteVendor",notes="This method deletes user with given id")
+    @ApiOperation(value="deleteVendor",notes="This method deletes user with given id", authorizations = {
+  	      @Authorization(value = "Authorization")
+  	    }) 
     @DeleteMapping("/deleteUser/{id}")
     public Response<Void> deleteVendor( @ApiParam(
     	    name =  "id",
@@ -95,7 +103,9 @@ public class UserController {
         return new Response<>(HttpStatus.OK.value(), "User deleted successfully.", null);
     }
 
-    @ApiOperation(value="getCategory",notes="This method fetches catergory list for given id")
+    @ApiOperation(value="getCategory",notes="This method fetches catergory list for given id", authorizations = {
+  	      @Authorization(value = "Authorization")
+  	    }) 
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "Success|OK"),
             @ApiResponse(code = 401, message = "not authorized!"), 
