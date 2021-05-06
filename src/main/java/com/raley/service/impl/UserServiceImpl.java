@@ -42,6 +42,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     //jackson library class to read/write the JSON object
     ObjectMapper mapper=new ObjectMapper();
+    
+	List<Category> categoryList;
 
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
@@ -98,8 +100,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Override
 	public List<Category> getCategoryList(int id) {
 		ResponseEntity<String> responseEntity=restTemplate.getForEntity(url+id, String.class);
-		
-		List<Category> categoryList=null;
 		
 		try {
 			categoryList=mapper.readValue(responseEntity.getBody(), new TypeReference<List<Category>>(){});

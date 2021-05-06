@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.raley.config.JwtTokenUtil;
-import com.raley.model.Response;
 import com.raley.model.AuthToken;
 import com.raley.model.LoginUser;
+import com.raley.model.Response;
 import com.raley.model.User;
 import com.raley.service.UserService;
 
@@ -46,7 +46,7 @@ public class AuthenticationController {
 	 * @return
 	 */
     @ApiOperation(value="login" ,notes ="This method authenicates the user and provides auth token")
-	@RequestMapping(value = "/generate-token", method = RequestMethod.POST)
+	@PostMapping(value = "/generate-token")
 	public Response<AuthToken> login(@RequestBody LoginUser loginUser) {
 		logger.info("authenticate user : " + loginUser.getUsername() + " for genearate token");
 		try {
