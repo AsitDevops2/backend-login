@@ -10,7 +10,9 @@ import com.raley.model.User;
 @Repository
 public interface UserDao extends CrudRepository<User, Integer> {
 
-    User findByEmail(String email);
+	//returns a user if email id matched else returns null
+    User findByEmail(String email);		
     
-    List<User> findByParent(int id);
+  //returns list of users by parent id in db
+    List<User> findByParent(int id);	
 }

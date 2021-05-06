@@ -10,11 +10,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class CORSFilter implements Filter {
+	
+	Logger logger=LoggerFactory.getLogger(CORSFilter.class);
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-		System.out.println("Filtering on...........................................................");
+		logger.info("Filtering on...........................................................");
 		HttpServletResponse response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
@@ -24,8 +29,16 @@ public class CORSFilter implements Filter {
 		chain.doFilter(req, res);
 	}
 
+	/*
+	 * Init Method
+	 */
+	@Override
 	public void init(FilterConfig filterConfig) {}
 
+	/*
+	 * Destroy method
+	 */
+	@Override
 	public void destroy() {}
 
 }
