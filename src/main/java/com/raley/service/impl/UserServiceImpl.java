@@ -151,7 +151,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			});
 		} catch (Exception e) {
 			logger.error("Getting Error while fetching the category list");
-			e.printStackTrace();
 		}
 		
 		User parent = findById(id); // fetching the user from db
