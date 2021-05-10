@@ -2,6 +2,9 @@ package com.raley.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.shared.Application;
 import com.raley.dao.UserDao;
 import com.raley.model.User;
 import com.raley.model.UserDto;
@@ -43,9 +46,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	// Fetching the NodeApi url from properties file
+	// Injecting Eureka Client Bean
+	@Autowired
+	private EurekaClient eurekaClient;
+	
+	// Fetching application name from properties file
+	@Value("${backend.inventory.app}")
+	private String backendInventory;
+	
+	// Fetching category url from properties file
 	@Value("${nodeApi.categoryByUser.url}")
-	private String url;
+	private String categoryInventoryEndpoint;
 
 	// jackson library class to read/write the JSON object
 	ObjectMapper mapper = new ObjectMapper();
@@ -118,10 +129,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		return userDao.findByParent(id); // returns list of users where parentId matches with parameter id
 	}
 
+	// calling node api through resttemplate
 	@Override
 	public List<Category> getCategoryList(int id) {
-		// calling node api through resttemplate
 		logger.info("calling node api through resttemplate");
+		
+		Application application=eurekaClient.getApplication(backendInventory);	//getting application from eureka
+		InstanceInfo instanceInfo=application.getInstances().get(0); //Getting instance from eureka server
+		
+		String url="http://"+instanceInfo.getHostName()+":"+instanceInfo.getPort()+categoryInventoryEndpoint;
+		
 		// fetching category list from node api & storing into responsEntity object
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url + id, String.class);
 
